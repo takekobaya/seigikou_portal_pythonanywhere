@@ -1,0 +1,47 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<h2>イベント一覧</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>開催日</th>
+      <th>イベント名</th>
+      <th>講演</th>
+      <th>講師</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in event_list %}
+    <tr>
+      <td>{{ event.day }}</td>
+      <td>{{ event.name }}</td>
+      <td>{{ event.kouen.name }}</td>
+      <td>{{ event.kouen.koushi }}</td>
+      <td><a href="detail/{{ event.id }}">詳細</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="container">
+  <p><a class='btn btn-primary' href="{% url 'App:create' %}">新規登録</a></p>
+  <br>
+</div>
+
+<!--
+<h2>参加者一覧</h2>
+<div class="container">
+  <p><a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a></p>
+  <br>
+</div>
+
+<h2>講演一覧</h2>
+<div class="container">
+  <p><a class='btn btn-primary' href="{% url 'App:create3' %}">新規登録</a></p>
+  <br>
+</div>
+-- >
+{% endblock %}

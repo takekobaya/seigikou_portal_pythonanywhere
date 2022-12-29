@@ -1,0 +1,33 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<div class="jumbotron">
+  <h2>講演詳細</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>演題</th>
+        <th>講師</th>
+        <th>所属</th>
+        <th>要旨</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ kouen_detail.name }}</td>
+        <td>{{ kouen_detail.koushi.name }}</td>
+        <td>{{ kouen_detail.koushi.company }}</td>
+        <td>{{ kouen_detail.youshi }}</td>
+      </tr>
+    <tbody>
+  </table>
+  <div class="container">
+    <p><a class='btn btn-primary' href="{% url 'App:update3' pk=kouen_detail.pk %}">更新</a></p>
+    <br>
+  </div>
+
+　 <br>
+   <!-- <div><a href="{% url 'App:delete' pk=kouen_detail.pk %}">>>>メンバーを削除する</a></div> -->
+</div>
+{% endblock %}

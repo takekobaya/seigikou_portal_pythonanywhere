@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="ja" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href='{% static "App_Folder_css/style.css" %}'/>
+
+</head>
+<body>
+ <h1><font color="red">青技交アプリへようこそ！！</font></h1>
+ <h1>{{ UserID }}さん</h1>
+
+ <p><a class='btn btn-primary' href="{% url 'App:eventlist' %}">イベントリスト</a></p>
+ <p><a class='btn btn-primary' href="{% url 'App:kouenlist' %}">講演リスト</a></p>
+ <p><a class='btn btn-primary' href="{% url 'App:memberlist' %}">メンバーリスト</a></p>
+ <p> ログアウトは
+ <a href="{% url 'App:Logout' %}">こちら</a>
+ </p>
+</body>
+</html>
+

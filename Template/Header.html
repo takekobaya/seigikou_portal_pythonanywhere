@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>青技交ポータルサイト</title>
+
+ </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-nav">
+        <!-- urls.pyで定義したアプリ名 + urlpatternのpathで定めたnameを指定し、リンクで遷移できるようにする -->
+        <a class="navbar-brand" href="{% url 'App:home' %}">Home</a>
+        <a class="navbar-brand" href="{% url 'App:eventlist' %}">イベントリスト</a>
+        <a class="navbar-brand" href="{% url 'App:memberlist' %}">青技交メンバーリスト</a>
+        <a class="navbar-brand" href="{% url 'App:kouenlist' %}">講演リスト</a>
+      </div>
+    </nav>
+
+    <!-- Event_list.htmlのHTMLコンテンツを呼び出し -->
+    <div class="container">
+      <!-- ログイン中のユーザーを表示 -->
+            {% if request.user.is_authenticated %}
+                <h6>
+                    ログイン中の {{ user.last_name }}さんは
+                    {% if request.user.is_superuser %}
+                        スーパーユーザー
+                    {% elif request.user.is_staff %}
+                        スタッフユーザー
+                    {% elif request.user.is_active %}
+                        アクティブユーザー
+                    {% endif %}
+                    です
+                </h6>
+            {% else %}
+                <h1>ブログ 一般ユーザーさんです</h1>
+            {% endif %}
+            <br>
+            <!-- ここまで -->
+
+      {% block content_block %}
+      {% endblock %}
+    </div>
+
+  </body>
+</html>

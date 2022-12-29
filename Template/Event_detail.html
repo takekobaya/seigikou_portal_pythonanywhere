@@ -1,0 +1,74 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<div class="jumbotron">
+  <h2>イベント詳細</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>開催日</th>
+        <th>開始時間</th>
+        <th>終了時間</th>
+        <th>開催場所</th>
+        <th>イベント名</th>
+        <th>演題</th>
+        <th>公開範囲</th>
+        <th>次第</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ event_detail.day }}</td>
+        <td>{{ event_detail.starttime }}</td>
+        <td>{{ event_detail.endtime }}</td>
+        <td>{{ event_detail.location }}</td>
+        <td>{{ event_detail.name }}</td>
+        <td>{{ event_detail.kouen.name }}</td>
+        <td>{{ event_detail.public }}</td>
+        <td>{{ event_detail.contents | linebreaksbr}}</td>
+      </tr>
+    <tbody>
+  </table>
+  <div class="container">
+    <p><a class='btn btn-primary' href="{% url 'App:update' pk=event_detail.pk %}">更新</a></p>
+    <br>
+  </div>
+
+  <h3>参加者</h3>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">名前</th>
+        <th scope="col">資格</th>
+        <th scope="col">部門</th>
+        <th scope="col">所属</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in event_detail.member.all %}
+      <tr>
+        <td>{{ b.name }}</td>
+        <td>{{ b.shikaku }}</td>
+        <td>
+        {% for a in b.bumon.all %}
+         {{ a.name }}
+         <br>
+        {% endfor%}
+        </td>
+        <td>{{ b.company }}</td>
+        <td><a href="{% url 'App:update2' pk=b.pk %}">詳細</a></td>
+      </tr>
+      {% endfor %}
+     <tbody>
+  </table>
+  <div class="container">
+    <p><a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a></p>
+    <br>
+  </div>
+  {% if user.is_staff %} <!--スタッフ権限が無い場合削除ボタンを表示しない-->
+   <div><a href="{% url 'App:delete' pk=event_detail.pk %}">>>>イベント情報を削除する</a></div>
+  {% endif %}
+</div>
+{% endblock %}

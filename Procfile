@@ -1,0 +1,1 @@
+web: gunicorn seigikou_portal_pythonanywhere.wsgi

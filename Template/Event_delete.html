@@ -1,0 +1,11 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<h1>本当に削除しますか?</h1>
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-danger" value="削除">
+  <a href="{% url 'App:detail' pk=event.pk %} ">キャンセル</a>
+</form>
+{% endblock %}

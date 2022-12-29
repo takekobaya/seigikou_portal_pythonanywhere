@@ -1,0 +1,20 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<h1>
+  {% if not form.instance.pk %}
+  新規登録
+  {% else %}
+  イベント・メンバー情報を更新
+  {% endif %}
+</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+   <!--<table>
+   {{form}}
+   </table> -->
+    <input type="submit" class='btn btn-primary' value="登録">
+  </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<h2>青技交メンバー</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">名前</th>
+        <th scope="col">資格</th>
+        <th scope="col">部門</th>
+        <th scope="col">会員</th>
+        <th scope="col">都道府県</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in member_list %}
+      <tr>
+        <td>{{ member.name }}</td>
+        <td>{{ member.shikaku }}</td>
+        <td>
+        {% for a in member.bumon.all %}
+          {{ a.name }}
+          <br>
+        {% endfor %}
+        </td>
+        <td>{{ member.kaiin }}</td>
+        <td>{{ member.pref }}</td>
+        <td><a href="detail2/{{ member.id }}">詳細</a></td>
+      </tr>
+      {% endfor %}
+     <tbody>
+  </table>
+
+<br>
+<h2>メンバー新規登録</h2>
+<div class="container">
+  <p><a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a></p>
+  <br>
+</div>
+
+{% endblock %}

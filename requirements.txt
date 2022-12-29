@@ -1,0 +1,16 @@
+argon2-cffi==21.3.0
+argon2-cffi-bindings==21.2.0
+asgiref==3.2.10
+certifi==2020.6.20
+cffi==1.15.0
+dj-database-url==0.5.0
+Django @ file:///tmp/build/80754af9/django_1601563330930/work
+gunicorn==20.1.0
+Pillow
+psycopg2 @ file:///C:/ci/psycopg2_1594305172475/work
+pycparser==2.21
+pytz==2020.1
+sqlparse @ file:///tmp/build/80754af9/sqlparse_1602184451250/work
+whitenoise==5.3.0
+wincertstore==0.2
+#python-dotenv

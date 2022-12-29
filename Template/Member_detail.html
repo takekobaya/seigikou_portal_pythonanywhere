@@ -1,0 +1,51 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<div class="jumbotron">
+  <h2>メンバー詳細</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>資格</th>
+        <th>部門</th>
+        <th>会員</th>
+        <th>都道府県</th>
+        <th>所属</th>
+        <th>専門</th>
+        <th>参加イベント</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ member_detail.name }}</td>
+        <td>{{ member_detail.shikaku }}</td>
+        <td>
+        {% for a in member_detail.bumon.all %}
+          {{ a.name }}
+          <br>
+        {% endfor%}
+        </td>
+        <td>{{ member_detail.kaiin }}</td>
+        <td>{{ member_detail.pref }}</td>
+        <td>{{ member_detail.company }}</td>
+        <td>{{ member_detail.senmon }}</td>
+        <td>
+        {% for a in member_detail.Members.all %}
+          {{ a.name }}
+          <br>
+        {% endfor%}
+        </td>
+      </tr>
+    <tbody>
+  </table>
+  <div class="container">
+    <p><a class='btn btn-primary' href="{% url 'App:update2' pk=member_detail.pk %}">更新</a></p>
+    <br>
+  </div>
+
+　 <br>
+   <!-- <div><a href="{% url 'App:delete' pk=member_detail.pk %}">>>>メンバーを削除する</a></div> -->
+</div>
+{% endblock %}
