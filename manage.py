@@ -9,7 +9,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings.development')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

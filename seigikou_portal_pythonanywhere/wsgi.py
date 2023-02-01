@@ -14,7 +14,7 @@ from django.core.wsgi import get_wsgi_application
 #.envから環境変数を読み込む
 #dotenv.load_dotenv()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings')
 
 application = get_wsgi_application()
 
