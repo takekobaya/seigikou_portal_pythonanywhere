@@ -2,14 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-#import dotenv
+import dotenv
 
 #.envから環境変数を読み込む
-#dotenv.load_dotenv()
+dotenv.load_dotenv()
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings.development')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

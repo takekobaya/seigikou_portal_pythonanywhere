@@ -9,12 +9,12 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/
 
 import os
 from django.core.wsgi import get_wsgi_application
-#import dotenv
+import dotenv
 
 #.envから環境変数を読み込む
-#dotenv.load_dotenv()
+dotenv.load_dotenv()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settingsdevelopment')
 
 application = get_wsgi_application()
 
