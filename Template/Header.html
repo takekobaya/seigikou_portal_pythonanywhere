@@ -23,7 +23,7 @@
       <!-- ログイン中のユーザーを表示 -->
             {% if request.user.is_authenticated %}
                 <h6>
-                    ログイン中の {{ user.last_name }}さんは
+                    ログイン中の {{ user.username }}さんは
                     {% if request.user.is_superuser %}
                         スーパーユーザー
                     {% elif request.user.is_staff %}
