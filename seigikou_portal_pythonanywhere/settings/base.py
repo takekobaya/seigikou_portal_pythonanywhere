@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 TEMPLATE_DIR = os.path.join(BASE_DIR,"Template")
 STATIC_DIR = os.path.join(BASE_DIR,"static")
@@ -63,47 +63,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'seigikou_portal_pythonanywhere.wsgi.application'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0%_)ieqicu%11yq&zcrjdi)e@51nj)v)or^cth+5r5(v5u1b6@'
-
-DEBUG = True
-
-ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'takekobaya.pythonanywhere.com']
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-#環境変数を用いての入力とする
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME'  :  'takekobaya$mysqlseigikou',
-        'USER'  :'takekobaya',
-        'PASSWORD':'rootroot',
-        'HOST'  :'takekobaya.mysql.pythonanywhere-services.com',
-        'POST'  :'3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
-}
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS':{"min_length":8},
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -132,5 +91,3 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-#CSRF_COOKIE_SECURE = True
-#SESSION_COOKIE_SECURE = True
