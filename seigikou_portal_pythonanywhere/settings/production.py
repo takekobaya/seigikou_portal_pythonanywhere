@@ -4,7 +4,7 @@ import os
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'takekobaya.pythonanywhere.com'] 
 
