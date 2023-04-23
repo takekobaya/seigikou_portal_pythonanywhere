@@ -5,6 +5,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from .forms import AccountForm, AddAccountForm # ユーザーアカウントフォーム
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.views.generic import (ListView,
                                   DetailView,
                                   CreateView,
@@ -12,6 +13,8 @@ from django.views.generic import (ListView,
                                   UpdateView,
                                   TemplateView)
 from . import models
+import os
+
 '''
 #ホーム画面
 class Home(ListView):
@@ -262,3 +265,19 @@ class  AccountRegistration(TemplateView):
             print(self.params["account_form"].errors)
 
         return render(request,"register.html",context=self.params)
+    
+
+def download_ppt(request):
+    # ダウンロードするファイルのパス
+    file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
+    
+    # ファイルをバイナリ形式で読み込む
+    with open(file_path, 'rb') as f:
+        file_data = f.read()
+    
+    # HttpResponseオブジェクトを作成して、ファイルをダウンロードさせる
+    response = HttpResponse(file_data, content_type='application/vnd.ms-powerpoint')
+    response['Content-Disposition'] = 'attachment; filename="template.pptx"'
+    return response
+
+
