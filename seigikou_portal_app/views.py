@@ -267,17 +267,26 @@ class  AccountRegistration(TemplateView):
         return render(request,"register.html",context=self.params)
     
 
-def download_ppt(request):
-    # ダウンロードするファイルのパス
-    file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
-    
-    # ファイルをバイナリ形式で読み込む
-    with open(file_path, 'rb') as f:
-        file_data = f.read()
-    
-    # HttpResponseオブジェクトを作成して、ファイルをダウンロードさせる
-    response = HttpResponse(file_data, content_type='application/vnd.ms-powerpoint')
-    response['Content-Disposition'] = 'attachment; filename="template.pptx"'
-    return response
 
+#PPT出力
+class EventPptDownload(DetailView):
+    #Companyテーブル連携
+    model = models.Event
+    #レコード情報をテンプレートに渡すオブジェクト
+    context_object_name = "event_detail"
+    #テンプレートファイル連携
+    template_name = "event_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        # ダウンロードするファイルのパス
+        file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
+        
+        # ファイルをバイナリ形式で読み込む
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
+        
+        # HttpResponseオブジェクトを作成して、ファイルをダウンロードさせる
+        response = HttpResponse(file_data, content_type='application/vnd.ms-powerpoint')
+        response['Content-Disposition'] = 'attachment; filename="template.pptx"'
+        return response
 
