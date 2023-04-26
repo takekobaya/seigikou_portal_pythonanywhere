@@ -14,6 +14,6 @@ import dotenv
 #.envから環境変数を読み込む
 dotenv.load_dotenv()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings.development')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seigikou_portal_pythonanywhere.settings.production')
 
 application = get_asgi_application()

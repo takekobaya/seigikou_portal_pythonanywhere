@@ -18,6 +18,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }    
 }
+
 """
 DATABASES = {    
     'default': {
@@ -30,4 +31,5 @@ DATABASES = {
     }    
 }
 """
+
 AUTH_PASSWORD_VALIDATORS = []
