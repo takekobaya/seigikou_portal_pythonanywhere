@@ -19,15 +19,17 @@ DATABASES = {
     }    
 }
 
-# DATABASES = {    
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME'  :  'mysql_testdb',
-#         'USER'  :'root',
-#         'PASSWORD':'root',
-#         'HOST'  :'127.0.0.1',
-#         'POST'  :'3306',
-#     }    
-# }
+"""
+DATABASES = {    
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME'  :  'mysql_testdb',
+        'USER'  :'root',
+        'PASSWORD':'root',
+        'HOST'  :'127.0.0.1',
+        'POST'  :'3306',
+    }    
+}
+"""
 
 AUTH_PASSWORD_VALIDATORS = []

@@ -17,7 +17,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 TEMPLATE_DIR = os.path.join(BASE_DIR,"Template")
-STATIC_DIR = os.path.join(BASE_DIR,"static")
+STATIC_DIR = os.path.join(BASE_DIR,"staticfiles")
 MEDIA_DIR = os.path.join(BASE_DIR,"media")
 
 # Application definition
@@ -79,9 +79,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR,]
-STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/staticfiles/'
+#STATICFILES_DIRS = [STATIC_DIR,]
+STATIC_ROOT = STATIC_DIR
 
 #MEDIA_DIR
 MEDIA_ROOT = MEDIA_DIR

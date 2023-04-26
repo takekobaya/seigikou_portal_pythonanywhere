@@ -6,7 +6,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'takekobaya.pythonanywhere.com'] 
+ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'takekobaya.pythonanywhere.com']
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
