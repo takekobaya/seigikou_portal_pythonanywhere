@@ -14,6 +14,7 @@ from django.views.generic import (ListView,
                                   TemplateView)
 from . import models
 import os
+from django.contrib import messages
 
 '''
 #ホーム画面
@@ -72,7 +73,7 @@ class MemberDetail(DetailView):
 
     def get(self, request, **kwargs):
         # アクティブユーザーでなければログインページ
-        if not request.user.is_staff:
+        if not request.user.is_active:
             return redirect('/home')
         return super().get(request)
 
@@ -82,7 +83,11 @@ class EventCreateView2(CreateView):
     model = models.Member
     #入力項目定義
     fields = ("name","shikaku","bumon","kaiin","mlmemb",
-              "honbu","pref","company","senmon","bukai","other")
+              "honbu","pref","company","senmon","bukai","other","image")
+    #labels = {"name":"名前","shikaku":"資格","bumon":"部門","kaiin":"会員/非会員",
+    #          "mlmemb":"MLメンバー","honbu":"地域本部","pref":"都道府県","company":"所属・会社",
+    #          "senmon":"専門","bukai":"所属部会・委員","other":"PRポイント","image":"写真"}
+    
     #テンプレートファイル連携
     template_name = "Event_form.html"
     #作成後のリダイレクト先
@@ -237,32 +242,44 @@ class  AccountRegistration(TemplateView):
 
         #フォーム入力の有効検証
         if self.params["account_form"].is_valid() and self.params["add_account_form"].is_valid():
-            # アカウント情報をDB保存
-            account = self.params["account_form"].save()
-            # パスワードをハッシュ化
-            account.set_password(account.password)
-            # ハッシュ化パスワード更新
-            account.save()
+        
+            # キーワードの検証
+            secret_word = self.params["add_account_form"].cleaned_data['secret_word']
+            # ここで正しいキーワードを設定してください
+            correct_secret_word = os.environ.get('SECRET_WORD') #ココが秘密のキーワード
 
-            # 下記追加情報
-            # 下記操作のため、コミットなし
-            add_account = self.params["add_account_form"].save(commit=False)
-            # AccountForm & AddAccountForm 1vs1 紐付け
-            add_account.user = account
+            if secret_word == correct_secret_word:
+                # アカウント情報をDB保存
+                account = self.params["account_form"].save()
+                # パスワードをハッシュ化
+                account.set_password(account.password)
+                # ハッシュ化パスワード更新
+                account.save()
 
-            # 画像アップロード有無検証
-            #if 'account_image' in request.FILES:
-            #    add_account.account_image = request.FILES['account_image']
+                # 下記追加情報
+                # 下記操作のため、コミットなし
+                add_account = self.params["add_account_form"].save(commit=False)
+                # AccountForm & AddAccountForm 1vs1 紐付け
+                add_account.user = account
 
-            # モデル保存
-            add_account.save()
+                # 画像アップロード有無検証
+                if 'account_image' in request.FILES:
+                    add_account.account_image = request.FILES['account_image']
 
-            # アカウント作成情報更新
-            self.params["AccountCreate"] = True
+                # モデル保存
+                add_account.save()
+
+                # アカウント作成情報更新
+                self.params["AccountCreate"] = True
+
+            else:
+                # キーワードが正しくない場合はエラーメッセージを表示
+                 messages.error(request, '秘密の言葉が違うよ')
 
         else:
             # フォームが有効でない場合
             print(self.params["account_form"].errors)
+            messages.error(request, '入力内容にエラーがあります')
 
         return render(request,"register.html",context=self.params)
     

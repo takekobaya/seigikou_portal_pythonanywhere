@@ -30,6 +30,15 @@
 
    </table>
    </div>
+
+   {% if messages %}
+     <ul class="errorlist">
+       {% for message in messages %}
+         <li>{{ message }}</li>
+       {% endfor %}
+     </ul>
+   {% endif %}
+
  {% endif %}
 
 </body>

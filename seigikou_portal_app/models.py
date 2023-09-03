@@ -9,7 +9,8 @@ class Account(models.Model):
     # 追加フィールド
     last_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
-    #account_image = models.ImageField(upload_to="profile_pics",blank=True)
+    account_image = models.ImageField(upload_to="profile_pics",blank=True)
+    secret_word = models.CharField(max_length=20, default='')  # デフォルト値を設定
 
     def __str__(self):
         return self.user.username
@@ -66,6 +67,7 @@ class Member(models.Model):
     senmon = models.CharField(max_length=50,blank=True,null=True)
     bukai = models.CharField(max_length=20,blank=True,null=True)
     other = models.CharField(max_length=256,blank=True,null=True)
+    image = models.ImageField(upload_to="profile_pics",blank=True)
 
     class Meta:
         db_table = 'Member'
