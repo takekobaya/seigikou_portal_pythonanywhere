@@ -289,8 +289,105 @@ class  AccountRegistration(TemplateView):
         return render(request,"register.html",context=self.params)
     
 
+# PPT出力準備（次回イベント選択など）
+class EventPpt(DetailView):
+    #Eventテーブル連携
+    model = models.Event
+    #レコード情報をテンプレートに渡すオブジェクト
+    context_object_name = "event_detail"
+    #テンプレートファイル連携
+    template_name = "Event_ppt.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = models.Event.objects.all()  # すべての著者を追加
+        return context
+
+
+def EventPptDownload2(request, pk):
+    if request.method == 'POST':
+        next_event_pk = request.POST.get('item')
+
+        # ダウンロードするファイルのパス
+        file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
+        # **kwargs引数に指定されたpkのレコードを取り出す
+        event = models.Event.objects.get(pk=pk)
+        nextevent = models.Event.objects.get(pk=next_event_pk)
+        print(event.id, event.name)
+
+        prs = Presentation(file_path)
+
+        for slide in prs.slides:
+            for shape in slide.shapes:
+
+                # P.1のテーブル書き換え
+                if shape.has_text_frame and shape.name == "txtbox_reikai_contents":
+                    # 例会内容
+                    shape.text_frame.text = event.contents
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+                        for run in para.runs:
+                            # テキスト内の "_x000D_" を削除する ※改行(¥n)は存在するので削除のみで可
+                            run.text = run.text.replace("_x000D_", "")
+                elif shape.has_text_frame and shape.name == "txtbox_koushi_endai":
+                    # 講師・演題
+                    if event.kouen:
+                        shape.text_frame.text = f'''演題：{event.kouen.name}
+講師：{event.kouen.koushi}({event.kouen.koushi.company})'''
+                    else:
+                        # kouenフィールドに値がない場合
+                        shape.text_frame.text = f'''未定'''
+                    # 
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+
+                # P.2の書き換え
+                elif shape.name == "txtbox_next_title":
+                    shape.text_frame.text = nextevent.name
+                    
+                elif shape.name == "txtbox_next_schedule":
+                    shape.text_frame.text = f'''{str(nextevent.day)}
+{nextevent.starttime.strftime("%H:%M")}〜
+{nextevent.endtime.strftime("%H:%M")}'''
+                    
+                elif shape.name == "txtbox_next_koushi_endai":
+                    if nextevent.kouen:
+                        # 講師・演題
+                        shape.text_frame.text = f'''演題：{nextevent.kouen.name}
+講師：{nextevent.kouen.koushi}({nextevent.kouen.koushi.company})'''
+                    else:
+                        shape.text_frame.text = f'''未定'''
+
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+                    
+                # elif shape.name == "txtbox_seigikou_only":
+        
+        
+        
+        
+        # ファイルをバイナリストリームとして保存
+        ppt_io = io.BytesIO()
+        prs.save(ppt_io)
+        ppt_io.seek(0)  # ストリームの先頭に戻る
+
+        # レスポンスの作成
+        response = HttpResponse(ppt_io.getvalue(), content_type='application/vnd.ms-powerpoint')
+        response['Content-Disposition'] = 'attachment; filename="reikai.pptx"'
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'  # キャッシュを無効にする
+        response['Pragma'] = 'no-cache'  # 古いブラウザ用
+        response['Expires'] = '0'  # プロキシサーバーのキャッシュを防ぐ
+        return response #redirect('App:detail', pk=pk)
+
+    else:
+        return render(request, 'Event_list.html')
+
 
 #PPT出力
+#関数バージョンに移行したので不要。タイミング見て消す
 class EventPptDownload(DetailView):
     #Companyテーブル連携
     model = models.Event

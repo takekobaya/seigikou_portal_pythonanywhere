@@ -1,0 +1,74 @@
+
+{% extends "Header.html" %}
+
+{% block content_block %}
+<h2>イベントパワーポイント出力</h2>
+<h3>{{ event_detail.name }}</h3>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>開催日</th>
+      <th>イベント名</th>
+      <th>講演</th>
+      <th>講師</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ event_detail.day }}</td>
+      <td>{{ event_detail.name }}</td>
+      <td>{{ event_detail.kouen.name }}</td>
+      <td>{{ event_detail.kouen.koushi }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<h3>Next Event</h3>
+<p>PPTに記載する次回イベントを選択してください</p>
+
+<form id="myForm" method="post" action="{% url 'App:download_ppt' pk=event_detail.id %}">
+  {% csrf_token %}
+  <label for="itemSelect">イベントを選択：</label>
+  <select id="itemSelect" name="item">
+      {% for event in events %}
+          <option value="{{ event.pk }}">{{ event.name }}</option>
+      {% endfor %}
+  </select>
+  <input type="submit" value="出力">
+</form>
+<!--
+<table class="table">
+  <thead>
+    <tr>
+      <th>開催日</th>
+      <th>イベント名</th>
+      <th>講演</th>
+      <th>講師</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td>{{ event.day }}</td>
+      <td>{{ event.name }}</td>
+      <td>{{ event.kouen.name }}</td>
+      <td>{{ event.kouen.koushi }}</td>
+      <td><a href="detail/{{ event.id }}">詳細</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="container">
+  <p>
+    <a class='btn btn-primary' href="{% url 'App:download_ppt' pk=event_detail.pk %}">PPT出力</a>
+  </p>
+  <br>
+</div>
+-->
+
+{% endblock %}
