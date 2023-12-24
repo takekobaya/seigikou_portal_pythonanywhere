@@ -14,6 +14,11 @@ from django.views.generic import (ListView,
                                   TemplateView)
 from . import models
 import os
+import io
+from pptx import Presentation
+from pptx.util import Pt
+import qrcode
+from PIL import Image
 from django.contrib import messages
 
 '''
@@ -284,8 +289,105 @@ class  AccountRegistration(TemplateView):
         return render(request,"register.html",context=self.params)
     
 
+# PPT出力準備（次回イベント選択など）
+class EventPpt(DetailView):
+    #Eventテーブル連携
+    model = models.Event
+    #レコード情報をテンプレートに渡すオブジェクト
+    context_object_name = "event_detail"
+    #テンプレートファイル連携
+    template_name = "Event_ppt.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = models.Event.objects.all()  # すべての著者を追加
+        return context
+
+
+def EventPptDownload2(request, pk):
+    if request.method == 'POST':
+        next_event_pk = request.POST.get('item')
+
+        # ダウンロードするファイルのパス
+        file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
+        # **kwargs引数に指定されたpkのレコードを取り出す
+        event = models.Event.objects.get(pk=pk)
+        nextevent = models.Event.objects.get(pk=next_event_pk)
+        print(event.id, event.name)
+
+        prs = Presentation(file_path)
+
+        for slide in prs.slides:
+            for shape in slide.shapes:
+
+                # P.1のテーブル書き換え
+                if shape.has_text_frame and shape.name == "txtbox_reikai_contents":
+                    # 例会内容
+                    shape.text_frame.text = event.contents
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+                        for run in para.runs:
+                            # テキスト内の "_x000D_" を削除する ※改行(¥n)は存在するので削除のみで可
+                            run.text = run.text.replace("_x000D_", "")
+                elif shape.has_text_frame and shape.name == "txtbox_koushi_endai":
+                    # 講師・演題
+                    if event.kouen:
+                        shape.text_frame.text = f'''演題：{event.kouen.name}
+講師：{event.kouen.koushi}({event.kouen.koushi.company})'''
+                    else:
+                        # kouenフィールドに値がない場合
+                        shape.text_frame.text = f'''未定'''
+                    # 
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+
+                # P.2の書き換え
+                elif shape.name == "txtbox_next_title":
+                    shape.text_frame.text = nextevent.name
+                    
+                elif shape.name == "txtbox_next_schedule":
+                    shape.text_frame.text = f'''{str(nextevent.day)}
+{nextevent.starttime.strftime("%H:%M")}〜
+{nextevent.endtime.strftime("%H:%M")}'''
+                    
+                elif shape.name == "txtbox_next_koushi_endai":
+                    if nextevent.kouen:
+                        # 講師・演題
+                        shape.text_frame.text = f'''演題：{nextevent.kouen.name}
+講師：{nextevent.kouen.koushi}({nextevent.kouen.koushi.company})'''
+                    else:
+                        shape.text_frame.text = f'''未定'''
+
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+                    
+                # elif shape.name == "txtbox_seigikou_only":
+        
+        
+        
+        
+        # ファイルをバイナリストリームとして保存
+        ppt_io = io.BytesIO()
+        prs.save(ppt_io)
+        ppt_io.seek(0)  # ストリームの先頭に戻る
+
+        # レスポンスの作成
+        response = HttpResponse(ppt_io.getvalue(), content_type='application/vnd.ms-powerpoint')
+        response['Content-Disposition'] = 'attachment; filename="reikai.pptx"'
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'  # キャッシュを無効にする
+        response['Pragma'] = 'no-cache'  # 古いブラウザ用
+        response['Expires'] = '0'  # プロキシサーバーのキャッシュを防ぐ
+        return response #redirect('App:detail', pk=pk)
+
+    else:
+        return render(request, 'Event_list.html')
+
 
 #PPT出力
+#関数バージョンに移行したので不要。タイミング見て消す
 class EventPptDownload(DetailView):
     #Companyテーブル連携
     model = models.Event
@@ -298,12 +400,142 @@ class EventPptDownload(DetailView):
         # ダウンロードするファイルのパス
         file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
         
-        # ファイルをバイナリ形式で読み込む
-        with open(file_path, 'rb') as f:
-            file_data = f.read()
+        # kwargsの中身確認。ディクショナリ形式でpkにイベントIDが格納
+        # print("<print **kwargs>")
+        # for key, value in kwargs.items():
+        #     print(f"{key}: {value}")
+
+        # 全件取得
+        # events = models.Event.objects.all()
+        # for event in events:
+        #     print(event.id, event.name)
+
+        # **kwargs引数に指定されたpkのレコードを取り出す
+        event = models.Event.objects.get(pk = kwargs["pk"])
+        print(event.id, event.name)
+
+
+        prs = Presentation(file_path)
+
+        # P.1のテーブル書き換え
+        for slide in prs.slides:
+            for shape in slide.shapes:
+                if shape.has_text_frame and shape.name == "txtbox_reikai_contents":
+                    # 例会内容
+                    shape.text_frame.text = event.contents
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+                        for run in para.runs:
+                            # テキスト内の "_x000D_" を削除する ※改行(¥n)は存在するので削除のみで可
+                            run.text = run.text.replace("_x000D_", "")
+                elif shape.has_text_frame and shape.name == "txtbox_koushi_endai":
+                    # 講師・演題
+                    shape.text_frame.text = f'''演題：{event.kouen.name}
+講師：{event.kouen.koushi}({event.kouen.koushi.company})'''
+                    # 
+                    # 改行でパラグラフが複数あると書式が変わらない
+                    for para in shape.text_frame.paragraphs:
+                        para.font.size = Pt(24)
+
+        """
+        table.cell(2,2).text = f'''講師：{kouen_dict[kouen_id][3].value}
+        演題：{kouen_dict[kouen_id][4].value}'''
+        # 改行でパラグラフが複数あると書式が変わらない
+        for para in table.cell(2,2).text_frame.paragraphs:
+            para.font.size = Pt(24)
+
+        table.cell(5,2).text = f'''青年技術士交流会 例会
+        {event_list[en][7].value}'''
+        table.cell(5,2).text_frame.paragraphs[0].font.size = Pt(24)
+
+
+        # 2ページ目Shapesの中身を確認※調査用
+        for shp in prs.slides[1].shapes:
+            print(f'{type(shp)}, name:{shp.name}')
+
+        # P.2のテーブル書き換え
+        table = prs.slides[1].shapes[3].table
+
+        # 次回イベント
+        table.cell(0,0).text = f'{event_list[nxten][5].value}'
+        table.cell(0,0).text_frame.paragraphs[0].font.size = Pt(24)
+        # 次回開催日時
+        day_fmt = "%m/%d %a"
+        tm_fmt = "%H:%M"
+        table.cell(0,1).text = f'''{event_list[nxten][1].value.strftime(day_fmt)}
+        {event_list[nxten][2].value.strftime(tm_fmt)}～'''
+        table.cell(0,1).text_frame.paragraphs[0].font.size = Pt(24)
+        table.cell(0,1).text_frame.paragraphs[1].font.size = Pt(24)
+        # 次回講演内容
+        table.cell(0,2).text = f'''講師：{kouen_dict[nxtkouen_id][3].value}
+        演題：{kouen_dict[nxtkouen_id][4].value}
+        '''
+        if event_list[nxten][6].value == '青年ML':
+            table.cell(0,2).text += "※青年技術士交流会の内部勉強会になります。"
+
+        table.cell(0,2).text_frame.paragraphs[0].font.size = Pt(24)
+        table.cell(0,2).text_frame.paragraphs[1].font.size = Pt(24)
+
+        print(type(event_list[nxten][1].value))
+
+        # table = prs.slides[1].shapes[1].table
+
+        # table.cell(2,2).text = f'''講師：{kouen_dict[kouen_id][3].value}
+        # 演題：{kouen_dict[kouen_id][4].value}'''
+
+
+        # QRコードの作成とPPTへの貼り付け
+        # 参考）https://tat-pytone.hatenablog.com/entry/2019/06/22/153657
+        # ------------------------------------------------------------------
+
+        # QRコード生成
+        url = event_list[en][11].value
+        img = qrcode.make(url)
+        img.save('qrcode.png')
+
+        # テキストボックスのURL書き換え
+        urltxtbox = prs.slides[1].shapes[7].text_frame.paragraphs[0]
+        urltxtbox.text = url
+        urltxtbox.font.size = Pt(12)
+        urltxtbox.font.underline = True
+
+        # pngとして保存したQRコードをPPTに貼り付け
+        # リファレンス https://python-pptx.readthedocs.io/en/latest/api/shapes.html#picture-objects
+        prs.slides[1].shapes.add_picture("qrcode.png", 9469796, 1147979, 1489415)
+
+
+        # 絵の位置を調べる
+        # imgshp = prs.slides[1].shapes[6]
+        # print(f'top:{imgshp.top}, left:{imgshp.left}, width:{imgshp.width}, height:{imgshp.height}')
+        # top:1147979, left:9469796, width:1489415, height:1489415
+        """
+
+
+        # ファイルをバイナリストリームとして保存
+        ppt_io = io.BytesIO()
+        prs.save(ppt_io)
+        ppt_io.seek(0)  # ストリームの先頭に戻る
+
+        # レスポンスの作成
+        response = HttpResponse(ppt_io.getvalue(), content_type='application/vnd.ms-powerpoint')
+        response['Content-Disposition'] = 'attachment; filename="reikai.pptx"'
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'  # キャッシュを無効にする
+        response['Pragma'] = 'no-cache'  # 古いブラウザ用
+        response['Expires'] = '0'  # プロキシサーバーのキャッシュを防ぐ
+
+        # # 別名でPPT保存して終了
+        # # ------------------------------------------------------------------
+        # prs.save('test.pptx')
+
+        # # ファイルをバイナリ形式で読み込む
+        # with open(file_path, 'rb') as f:
+        #     file_data = f.read()
         
-        # HttpResponseオブジェクトを作成して、ファイルをダウンロードさせる
-        response = HttpResponse(file_data, content_type='application/vnd.ms-powerpoint')
-        response['Content-Disposition'] = 'attachment; filename="template.pptx"'
+        # # HttpResponseオブジェクトを作成して、ファイルをダウンロードさせる
+        # response = HttpResponse(file_data, content_type='application/vnd.ms-powerpoint')
+        # response['Content-Disposition'] = 'attachment; filename="test.pptx"'
+        
+
         return response
 

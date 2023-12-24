@@ -24,5 +24,6 @@ urlpatterns = [
     path('update2/<int:pk>/',views.EventUpdateView2.as_view(),name='update2'),   #更新画面(メンバー)
     path('update3/<int:pk>/',views.EventUpdateView3.as_view(),name='update3'),   #更新画面(講演)
     path('delete/<int:pk>/',views.EventDeleteView.as_view(),name='delete'),   #削除画面(イベント)
-    path('ppt/<int:pk>/',views.EventPptDownload.as_view(),name='download_ppt'),             # イベント詳細からのPPT出力
+    path('ppt/<int:pk>/',views.EventPpt.as_view(),name='ppt'),             # イベント詳細からのPPT出力
+    path('ppt_download/<int:pk>/',views.EventPptDownload2, name='download_ppt'), # イベント詳細からのPPT出力
 ]
