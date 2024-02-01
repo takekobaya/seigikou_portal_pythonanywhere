@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.urls import reverse
 from django.http import HttpResponse,HttpResponseRedirect
-from .forms import AccountForm, AddAccountForm # ユーザーアカウントフォーム
+from .forms import AccountForm, AddAccountForm, MemberForm # ユーザーアカウントフォーム
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -83,19 +83,10 @@ class MemberDetail(DetailView):
         return super().get(request)
 
 #Create(メンバー)画面
-class EventCreateView2(CreateView):
-    #Companyテーブル連携
+class MemberCreateView(CreateView):
     model = models.Member
-    #入力項目定義
-    fields = ("name","shikaku","bumon","kaiin","mlmemb",
-              "honbu","pref","company","senmon","bukai","other","image")
-    #labels = {"name":"名前","shikaku":"資格","bumon":"部門","kaiin":"会員/非会員",
-    #          "mlmemb":"MLメンバー","honbu":"地域本部","pref":"都道府県","company":"所属・会社",
-    #          "senmon":"専門","bukai":"所属部会・委員","other":"PRポイント","image":"写真"}
-    
-    #テンプレートファイル連携
-    template_name = "Event_form.html"
-    #作成後のリダイレクト先
+    form_class = MemberForm
+    template_name = "Member_form.html"
     success_url = reverse_lazy("App:memberlist")
 
 #講演リスト画面
@@ -117,7 +108,7 @@ class KouenDetail(DetailView):
     template_name = "kouen_detail.html"
 
 #Create(講演)画面
-class EventCreateView3(CreateView):
+class KouenCreateView(CreateView):
     #Companyテーブル連携
     model = models.Kouen
     #入力項目定義
@@ -141,19 +132,14 @@ class EventUpdateView(UpdateView):
         return reverse('App:detail', kwargs={'pk': self.object.pk})
 
 #更新画面(メンバー情報)
-class EventUpdateView2(UpdateView):
-    #入力項目定義
-    fields =  ("name","shikaku","bumon","kaiin","mlmemb",
-              "honbu","pref","company","senmon","bukai","other")
-    #メンバーテーブル連携
+class MemberUpdateView(UpdateView):
     model = models.Member
-    #テンプレートファイル連携
-    template_name = "Event_form.html"
-    #更新後のリダイレクト先
+    form_class = MemberForm
+    template_name = "Member_form.html"
     success_url = reverse_lazy("App:memberlist")
-
+    
 #更新(講演)画面
-class EventUpdateView3(UpdateView):
+class KouenUpdateView(UpdateView):
     #入力項目定義
     fields = ("koushi","name","youshi","event")
     #テーブル連携

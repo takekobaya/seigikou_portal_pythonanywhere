@@ -1,7 +1,11 @@
 
 {% extends "Header.html" %}
 
+
 {% block content_block %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'App_Folder_css/style.css' %}">
+
 <h2>青技交メンバー</h2>
   <table class="table">
     <thead>
@@ -11,7 +15,7 @@
         <th scope="col">部門</th>
         <th scope="col">会員</th>
         <th scope="col">都道府県</th>
-        <th scope="col">写真（工事中）</th>
+        <th scope="col">写真</th>
         <th></th>
       </tr>
     </thead>
@@ -28,7 +32,13 @@
         </td>
         <td>{{ member.kaiin }}</td>
         <td>{{ member.pref }}</td>
-        <td>{{ member.image }}</td>
+        <!--<td>{{ member.image }}</td> -->
+        {% if member.image %}
+          <!--<td>{{ member.image.url }}</td> -->
+          <td><img src= "{{ member.image.url }}" alt="画像読込エラー" width="100" height="100"></td>
+        {% else %}
+          <td>No image file </td>
+        {% endif %}
         <td><a href="detail2/{{ member.id }}">詳細</a></td>
       </tr>
       {% endfor %}
