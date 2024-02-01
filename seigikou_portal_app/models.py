@@ -97,7 +97,8 @@ class Event(models.Model):
 #講演情報を格納するテーブル
 class Kouen(models.Model):
     kouencode = models.CharField(max_length=7,blank=True,null=True)
-    koushi = models.ForeignKey(Member,related_name='Member',on_delete=models.CASCADE)
+    koushi = models.CharField(max_length=256)
+    company = models.CharField(max_length=100,blank=True,null=True)
     name    = models.CharField(max_length=256)
     youshi   = models.TextField(max_length=512,blank=True,null=True)
     event = models.OneToOneField(Event,related_name='kouen',on_delete=models.CASCADE)

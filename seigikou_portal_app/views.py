@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.urls import reverse
 from django.http import HttpResponse,HttpResponseRedirect
-from .forms import AccountForm, AddAccountForm, MemberForm # ユーザーアカウントフォーム
+from .forms import AccountForm, AddAccountForm, EventForm , MemberForm, KouenForm # ユーザーアカウントフォーム
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -45,19 +45,6 @@ class EventDetail(DetailView):
     #テンプレートファイル連携
     template_name = "Event_detail.html"
 
-#Create(イベント)画面
-class EventCreateView(CreateView):
-    #Companyテーブル連携
-    model = models.Event
-    #入力項目定義
-    fields = ("day","starttime","endtime","location",
-              "name","public","contents","question_url","member")
-    #テンプレートファイル連携
-    template_name = "Event_form.html"
-    #更新後のリダイレクト先
-    def get_success_url(self):
-        return reverse('App:detail', kwargs={'pk': self.object.pk})
-
 #メンバーリスト画面
 class MemberList(ListView):
     #Companyテーブル連携
@@ -82,13 +69,6 @@ class MemberDetail(DetailView):
             return redirect('/home')
         return super().get(request)
 
-#Create(メンバー)画面
-class MemberCreateView(CreateView):
-    model = models.Member
-    form_class = MemberForm
-    template_name = "Member_form.html"
-    success_url = reverse_lazy("App:memberlist")
-
 #講演リスト画面
 class KouenList(ListView):
     #Companyテーブル連携
@@ -107,25 +87,34 @@ class KouenDetail(DetailView):
     #テンプレートファイル連携
     template_name = "kouen_detail.html"
 
+#Create(イベント)画面
+class EventCreateView(CreateView):
+    #Companyテーブル連携
+    model = models.Event
+    form_class = EventForm
+    template_name = "Event_form.html"
+    #更新後のリダイレクト先
+    def get_success_url(self):
+        return reverse('App:detail', kwargs={'pk': self.object.pk})
+
+#Create(メンバー)画面
+class MemberCreateView(CreateView):
+    model = models.Member
+    form_class = MemberForm
+    template_name = "Member_form.html"
+    success_url = reverse_lazy("App:memberlist")
+
 #Create(講演)画面
 class KouenCreateView(CreateView):
-    #Companyテーブル連携
     model = models.Kouen
-    #入力項目定義
-    fields = ("koushi","name","youshi","event")
-    #テンプレートファイル連携
+    form_class = KouenForm
     template_name = "Event_form.html"
-    #作成後のリダイレクト先
     success_url = reverse_lazy("App:kouenlist")
 
 #Upadate画面(イベント情報)
 class EventUpdateView(UpdateView):
-    #入力項目定義
-    fields =  ("day","starttime","endtime","location",
-              "name","public","contents","question_url","member")
-    #Companyテーブル連携
     model = models.Event
-    #テンプレートファイル連携
+    form_class = EventForm
     template_name = "Event_form.html"
     #更新後のリダイレクト先
     def get_success_url(self):
@@ -140,13 +129,9 @@ class MemberUpdateView(UpdateView):
     
 #更新(講演)画面
 class KouenUpdateView(UpdateView):
-    #入力項目定義
-    fields = ("koushi","name","youshi","event")
-    #テーブル連携
     model = models.Kouen
-    #テンプレートファイル連携
+    form_class = KouenForm
     template_name = "Event_form.html"
-    #作成後のリダイレクト先
     success_url = reverse_lazy("App:kouenlist")
 
 #削除画面
