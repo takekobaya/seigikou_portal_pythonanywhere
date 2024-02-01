@@ -9,7 +9,7 @@
         <th scope="col">日にち</th>
         <th scope="col">演題</th>
         <th scope="col">講師</th>
-        <th scope="col">会社</th>
+        <th scope="col">所属</th>
         <th scope="col">例会名</th>
         <th></th>
       </tr>
@@ -19,8 +19,8 @@
       <tr>
         <td>{{ a.event.day }}</td>
         <td>{{ a.name }}</td>
-        <td>{{ a.koushi.name }}</td>
-        <td>{{ a.koushi.company }}</td>
+        <td>{{ a.koushi }}</td>
+        <td>{{ a.company }}</td>
         <td>{{ a.event.name }}</td>
         <td><a href="detail3/{{ a.id }}">詳細</a></td>
       </tr>
