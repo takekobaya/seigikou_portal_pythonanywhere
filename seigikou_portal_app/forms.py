@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Account,Event,Member,Kouen
+from django.forms.widgets import DateInput,TimeInput
 
 # フォームクラス作成
 class AccountForm(forms.ModelForm):
@@ -29,8 +30,13 @@ class EventForm(forms.ModelForm):
         model = Event
         fields =("day","starttime","endtime","location",
               "name","public","contents","question_url","member")
-        labels = {"day":"開催日","starttime":"開始時間","endtime":"終了時間","location":"開催場所",
+        labels = {"day":"開催日  ","starttime":"開始時間","endtime":"終了時間","location":"開催場所",
               "name":"イベント名","public":"公開範囲","contents":"次第","question_url":"アンケートURL","member":"参加者"}
+        widgets = {
+            'day': DateInput(format='%Y/%m/%d', attrs={'type': 'date'}),
+            'starttime': TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'endtime': TimeInput(format='%H:%M', attrs={'type': 'time'}),
+        }
 
 class MemberForm(forms.ModelForm):
     class Meta:
