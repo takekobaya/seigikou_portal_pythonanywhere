@@ -45,9 +45,30 @@ class MemberForm(forms.ModelForm):
                   "honbu", "pref", "company", "senmon", "bukai", "other", "image")
         labels = {'name':"名前","shikaku":"資格", "bumon":"部門", "kaiin":"会員種別", "mlmemb":"MLメンバー",
                   "honbu":"地域本部", "pref":"都道府県", "company":"所属", "senmon":"専門分野", "bukai":"部会", "other":"その他", "image":"写真"}
-        
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'shikaku': forms.Select(attrs={'class': 'form-control'}),
+            'bumon': forms.Select(attrs={'class': 'form-control'}),
+            'kaiin': forms.Select(attrs={'class': 'form-control'}),
+            'mlmemb': forms.Select(attrs={'class': 'form-control'}),
+            'honbu': forms.TextInput(attrs={'class': 'form-control'}),
+            'pref': forms.TextInput(attrs={'class': 'form-control'}),
+            'company': forms.TextInput(attrs={'class': 'form-control'}),
+            'senmon': forms.TextInput(attrs={'class': 'form-control'}),
+            'bukai': forms.TextInput(attrs={'class': 'form-control'}),
+            'other': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
 class KouenForm(forms.ModelForm):
     class Meta:
         model = Kouen
         fields = ("koushi","company","name","youshi","event")
         labels = {"koushi":"講師","company":"所属","name":"演題","youshi":"要旨","event":"開催イベント"}
+        widgets = {
+            'koushi': forms.TextInput(attrs={'class': 'form-control'}),
+            'company': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'youshi': forms.Textarea(attrs={'class': 'form-control'}),
+            'event': forms.Select(attrs={'class': 'form-control'}),
+        }

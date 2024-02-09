@@ -1,13 +1,18 @@
-<!DOCTYPE html>
+{% extends "Header.html" %}
+
+<!-- <!DOCTYPE html>
 
 {% load static %}
 <html lang="ja" dir="ltr">
 <head>
 <meta charset="utf-8">
-<title></title>
+<title>青技交中国</title>
 <link rel="stylesheet" href='{% static "App_Folder_css/style.css" %}'/>
-
 </head>
+-->
+
+{% block content_block %}
+
 <body>
  <h1><font color="red">青技交アプリへようこそ！！Ver.0.0.1</font></h1>
  <h1>{{ UserID }}さん</h1>
@@ -19,5 +24,7 @@
  <a href="{% url 'App:Logout' %}">こちら</a>
  </p>
 </body>
-</html>
 
+<!-- </html> -->
+
+{% endblock %}
