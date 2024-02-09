@@ -35,6 +35,8 @@ class EventList(ListView):
     context_object_name = "event_list"
     #テンプレートファイル連携
     template_name = "Event_list.html"
+    # 開催日でソート
+    ordering = ['day']
 
 #詳細画面
 class EventDetail(DetailView):
@@ -53,6 +55,8 @@ class MemberList(ListView):
     context_object_name = "member_list"
     #テンプレートファイル連携
     template_name = "member_list.html"
+    # 名前でソート
+    ordering = ['name']
 
 #詳細画面
 class MemberDetail(DetailView):
@@ -77,6 +81,12 @@ class KouenList(ListView):
     context_object_name = "kouen_list"
     #テンプレートファイル連携
     template_name = "kouen_list.html"
+    # 開催日でソート
+    def get_queryset(self):
+        # 'event__day'を使用して、KouenのリストをEventのdayフィールドに基づいてソート
+        # この部分で、KouenがEventにどのように関連付けられているかによって変更が必要かもしれません
+        # ここでは、KouenモデルがEventモデルへのForeignKeyまたはOneToOneFieldを'event'という名前で持っていると仮定しています
+        return models.Kouen.objects.all().order_by('event__day')
 
 #詳細画面
 class KouenDetail(DetailView):
