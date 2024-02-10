@@ -10,6 +10,8 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      {% load static %}
+      <img src="{% static 'waza_icon.gif' %}" width="30" height="30" alt="ロゴ" style="margin-left: 10px; margin-right: 10px;">
       <div class="navbar-nav">
         <!-- urls.pyで定義したアプリ名 + urlpatternのpathで定めたnameを指定し、リンクで遷移できるようにする -->
         <a class="navbar-brand" href="{% url 'App:home' %}">Home</a>
