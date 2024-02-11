@@ -290,7 +290,7 @@ def EventPptDownload2(request, pk):
         next_event_pk = request.POST.get('item')
 
         # ダウンロードするファイルのパス
-        file_path = os.path.join(settings.MEDIA_ROOT, 'template.pptx')
+        file_path = os.path.join(settings.TEMPLATE_DIR, 'template.pptx')
         # **kwargs引数に指定されたpkのレコードを取り出す
         event = models.Event.objects.get(pk=pk)
         nextevent = models.Event.objects.get(pk=next_event_pk)
@@ -315,7 +315,7 @@ def EventPptDownload2(request, pk):
                     # 講師・演題
                     if event.kouen:
                         shape.text_frame.text = f'''演題：{event.kouen.name}
-講師：{event.kouen.koushi}({event.kouen.koushi.company})'''
+講師：{event.kouen.koushi}({event.kouen.company})'''
                     else:
                         # kouenフィールドに値がない場合
                         shape.text_frame.text = f'''未定'''
@@ -337,7 +337,7 @@ def EventPptDownload2(request, pk):
                     if nextevent.kouen:
                         # 講師・演題
                         shape.text_frame.text = f'''演題：{nextevent.kouen.name}
-講師：{nextevent.kouen.koushi}({nextevent.kouen.koushi.company})'''
+講師：{nextevent.kouen.koushi}({nextevent.kouen.company})'''
                     else:
                         shape.text_frame.text = f'''未定'''
 
