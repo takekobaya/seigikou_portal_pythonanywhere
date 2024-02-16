@@ -24,7 +24,7 @@
         <td>{{ event_detail.endtime }}</td>
         <td>{{ event_detail.location }}</td>
         <td>{{ event_detail.name }}</td>
-        <td>{{ event_detail.kouen.name }}</td>
+        <td><a href="/kouenlist/detail3/{{ event_detail.kouen.id }}/">{{ event_detail.kouen.name }}</a></td>
         <td>{{ event_detail.public }}</td>
         <td>{{ event_detail.contents | linebreaksbr}}</td>
       </tr>
