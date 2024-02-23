@@ -13,18 +13,16 @@
 
 {% block content_block %}
 
-<body>
- <h1><font color="red">青技交アプリへようこそ！！Ver.0.0.1</font></h1>
- <h1>{{ UserID }}さん</h1>
+<div style="background-image: url('{% static 'waza.svg' %}'); background-position: right bottom; background-size: ::-webkit-textfield-decoration-contain; background-repeat: no-repeat;">
+    <h1><font color="red">青技交アプリへようこそ！！Ver.0.0.1</font></h1>
+    <h1>{{ UserID }}さん</h1>
 
- <p><a class='btn btn-primary' href="{% url 'App:eventlist' %}">イベントリスト</a></p>
- <p><a class='btn btn-primary' href="{% url 'App:kouenlist' %}">講演リスト</a></p>
- <p><a class='btn btn-primary' href="{% url 'App:memberlist' %}">メンバーリスト</a></p>
- <p> ログアウトは
- <a href="{% url 'App:Logout' %}">こちら</a>
- </p>
-</body>
-
-<!-- </html> -->
+    <p><a class='btn btn-primary' href="{% url 'App:eventlist' %}">イベントリスト</a></p>
+    <p><a class='btn btn-primary' href="{% url 'App:kouenlist' %}">講演リスト</a></p>
+    <p><a class='btn btn-primary' href="{% url 'App:memberlist' %}">メンバーリスト</a></p>
+    <p> ログアウトは
+    <a href="{% url 'App:Logout' %}">こちら</a>
+    </p>
+</div>
 
 {% endblock %}

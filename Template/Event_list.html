@@ -18,7 +18,7 @@
     <tr>
       <td>{{ event.day }}</td>
       <td>{{ event.name }}</td>
-      <td>{{ event.kouen.name }}</td>
+      <td><a href="/kouenlist/detail3/{{ event.kouen.id }}/">{{ event.kouen.name }}</a></td>
       <td>{{ event.kouen.koushi }}</td>
       <td><a href="detail/{{ event.id }}">詳細</a></td>
     </tr>
