@@ -3,7 +3,7 @@
 
 {% block content_block %}
 <div class="jumbotron">
-  <h2>講演詳細</h2>
+  <h3>講演詳細</h3>
   <table class="table">
     <thead>
       <tr>
@@ -23,7 +23,10 @@
     <tbody>
   </table>
   <div class="container">
-    <p><a class='btn btn-primary' href="{% url 'App:update3' pk=kouen_detail.pk %}">更新</a></p>
+    <p>
+     <a class='btn btn-primary' href="{% url 'App:update3' pk=kouen_detail.pk %}">更新</a>
+     <a href="{% url 'App:kouenlist' %}" class="btn btn-secondary">戻る</a>
+    </p>
     <br>
   </div>
 

@@ -3,7 +3,7 @@
 
 {% block content_block %}
 <div class="jumbotron">
-  <h2>イベント詳細</h2>
+  <h3>イベント詳細</h3>
   <table class="table">
     <thead>
       <tr>
@@ -36,7 +36,7 @@
     <br>
   </div>
 
-  <h3>参加者</h3>
+  <h4>参加者</h4>
     <table class="table">
     <thead>
       <tr>
@@ -65,7 +65,10 @@
      <tbody>
   </table>
   <div class="container">
-    <p><a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a></p>
+    <p>
+      <a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a>
+      <a href="{% url 'App:eventlist' %}" class="btn btn-secondary">戻る</a>
+    </p>
     <br>
   </div>
   {% if user.is_staff %} <!--スタッフ権限が無い場合削除ボタンを表示しない-->

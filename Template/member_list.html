@@ -6,7 +6,7 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'App_Folder_css/style.css' %}">
 
-<h2>青技交メンバー</h2>
+<h3>青技交メンバー</h3>
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -46,9 +46,12 @@
   </table>
 
 <br>
-<h2>メンバー新規登録</h2>
+<h3>メンバー新規登録</h3>
 <div class="container">
-  <p><a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a></p>
+  <p>
+    <a class='btn btn-primary' href="{% url 'App:create2' %}">新規登録</a>
+    <a href="{% url 'App:home' %}" class="btn btn-secondary">戻る</a>  
+  </p>
   <br>
 </div>
 

@@ -4,13 +4,13 @@
 {% block content_block %}
 <div class="row justify-content-center">
   <div class="col-md-6 form-container">
-    <h1>
+    <h3>
       {% if not form.instance.pk %}
-      イベント新規登録
+      イベント・講演　新規登録
       {% else %}
-      イベント情報更新
+      イベント・講演　情報更新
       {% endif %}
-    </h1>
+    </h3>
     <br>
     <form method="POST">
       {% csrf_token %}
@@ -19,7 +19,7 @@
       {{form}}
       </table> -->
       <input type="submit" class='btn btn-primary' value="登録">
-      <a class='btn btn-primary' href="{% url 'App:home' %}">Homeへ戻る</a>
+      <a button onclick="history.back()" class='btn btn-danger' >キャンセル</a>
     </form>
   </div>
 </div>

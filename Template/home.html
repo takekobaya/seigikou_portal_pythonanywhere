@@ -14,8 +14,8 @@
 {% block content_block %}
 
 <div style="background-image: url('{% static 'waza.svg' %}'); background-position: right bottom; background-size: ::-webkit-textfield-decoration-contain; background-repeat: no-repeat;">
-    <h1><font color="red">青技交アプリへようこそ！！Ver.0.0.1</font></h1>
-    <h1>{{ UserID }}さん</h1>
+    <h1><font color="red">青技交アプリへようこそ！！Ver.1.0.0</font></h1>
+    <h4>{{ UserID }}さん</h4>
 
     <p><a class='btn btn-primary' href="{% url 'App:eventlist' %}">イベントリスト</a></p>
     <p><a class='btn btn-primary' href="{% url 'App:kouenlist' %}">講演リスト</a></p>

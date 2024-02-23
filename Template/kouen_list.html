@@ -2,7 +2,7 @@
 {% extends "Header.html" %}
 
 {% block content_block %}
-<h2>講演リスト</h2>
+<h3>講演リスト</h3>
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -29,9 +29,12 @@
   </table>
 
 <br>
-<h2>講演新規登録</h2>
+<h3>講演新規登録</h3>
 <div class="container">
-  <p><a class='btn btn-primary' href="{% url 'App:create3' %}">新規登録</a></p>
+  <p>
+    <a class='btn btn-primary' href="{% url 'App:create3' %}">新規登録</a>
+    <a href="{% url 'App:home' %}" class="btn btn-secondary">戻る</a>
+  </p>
   <br>
 </div>
 
