@@ -10,5 +10,7 @@ launch.json
 profile_pics
 test.pptx
 media
+*/migrations/*.py
+*/migrations/__pycache__/
 
 .DS_Store
