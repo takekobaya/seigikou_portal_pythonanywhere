@@ -16,6 +16,7 @@
         <th scope="col">会員</th>
         <th scope="col">都道府県</th>
         <th scope="col">写真</th>
+        <th scope="col">自己紹介</th>
         <th></th>
       </tr>
     </thead>
@@ -39,6 +40,7 @@
         {% else %}
           <td>No image file </td>
         {% endif %}
+        <td>{{ member.other }}</td>
         <td><a href="detail2/{{ member.id }}">詳細</a></td>
       </tr>
       {% endfor %}

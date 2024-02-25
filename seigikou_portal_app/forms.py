@@ -44,7 +44,7 @@ class MemberForm(forms.ModelForm):
         fields = ("name", "shikaku", "bumon", "kaiin", "mlmemb",
                   "honbu", "pref", "company", "senmon", "bukai", "other", "image")
         labels = {'name':"名前","shikaku":"資格", "bumon":"部門", "kaiin":"会員種別", "mlmemb":"MLメンバー",
-                  "honbu":"地域本部", "pref":"都道府県", "company":"所属", "senmon":"専門分野", "bukai":"部会", "other":"その他", "image":"写真"}
+                  "honbu":"地域本部", "pref":"都道府県", "company":"所属", "senmon":"専門分野", "bukai":"部会", "other":"自己紹介", "image":"写真"}
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'shikaku': forms.Select(attrs={'class': 'form-control'}),
