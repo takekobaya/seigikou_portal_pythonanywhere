@@ -37,6 +37,16 @@ class EventForm(forms.ModelForm):
             'starttime': TimeInput(format='%H:%M', attrs={'type': 'time'}),
             'endtime': TimeInput(format='%H:%M', attrs={'type': 'time'}),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:  # インスタンスが存在する場合
+            initial_data = {
+                'day': self.instance.day.strftime('%Y-%m-%d') if self.instance.day else None,
+                'starttime': self.instance.starttime.strftime('%H:%M') if self.instance.starttime else None,
+                'endtime': self.instance.endtime.strftime('%H:%M') if self.instance.endtime else None,
+                # 他のフィールドも同様に追加
+            }
+            self.initial.update(initial_data)
 
 class MemberForm(forms.ModelForm):
     class Meta:
