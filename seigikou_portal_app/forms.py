@@ -58,7 +58,7 @@ class MemberForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'shikaku': forms.Select(attrs={'class': 'form-control'}),
-            'bumon': forms.Select(attrs={'class': 'form-control'}),
+            'bumon': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'kaiin': forms.Select(attrs={'class': 'form-control'}),
             'mlmemb': forms.Select(attrs={'class': 'form-control'}),
             'honbu': forms.TextInput(attrs={'class': 'form-control'}),
@@ -69,6 +69,11 @@ class MemberForm(forms.ModelForm):
             'other': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:  
+            # インスタンスが存在する場合、写真の初期値を設定する
+            self.fields['image'].initial = self.instance.image.url if self.instance.image else None
 
 class KouenForm(forms.ModelForm):
     class Meta:
