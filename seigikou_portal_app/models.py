@@ -87,6 +87,7 @@ class Event(models.Model):
     contents = models.TextField(max_length=512,blank=True,null=True)
     question_url = models.URLField(max_length=100,blank=True,null=True)
     member = models.ManyToManyField(Member,related_name='Members',blank=True)
+    SNSLink_url = models.CharField(max_length=1024,blank=True,null=True)
 
     class Meta:
         db_table = 'Event'
