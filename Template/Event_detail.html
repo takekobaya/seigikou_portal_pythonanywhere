@@ -30,6 +30,10 @@
       </tr>
     <tbody>
   </table>
+  <div>
+    <p>イベントリンク</p>
+    {{ event_detail.SNSLink_url|safe}}
+  </div>
   <div class="container">
     <p><a class='btn btn-primary' href="{% url 'App:update' pk=event_detail.pk %}">更新</a>
     <a class='btn btn-primary' href="{% url 'App:ppt' pk=event_detail.pk %}">PPT出力</a></p>
