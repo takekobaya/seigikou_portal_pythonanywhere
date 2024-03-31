@@ -29,9 +29,10 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields =("day","starttime","endtime","location",
-              "name","public","contents","question_url","member")
+              "name","public","contents","question_url","member","SNSLink_url")
         labels = {"day":"開催日  ","starttime":"開始時間","endtime":"終了時間","location":"開催場所",
-              "name":"イベント名","public":"公開範囲","contents":"次第","question_url":"アンケートURL","member":"参加者"}
+              "name":"イベント名","public":"公開範囲","contents":"次第","question_url":"アンケートURL",
+              "member":"参加者","SNSLink_url":"FB埋め込みコード"}
         widgets = {
             'day': DateInput(format='%Y/%m/%d', attrs={'type': 'date'}),
             'starttime': TimeInput(format='%H:%M', attrs={'type': 'time'}),
