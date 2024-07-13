@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>青技交ポータルサイト</title>
+</head>
+
+<body>
+    <h1>青技交DX活動　事例</h1>
+    <!-- Unityのビルド結果を表示する -->
+    <iframe src="{{ unity_build_path }}" width="1000" height="800" frameborder="0"></iframe>
+</body>
+
+<p>矢印キー（← →）で移動、「space」でジャンプ、白い花を採ると点数UP</p>
+
+<a href="{% url 'App:home' %}" class="btn btn-primary">戻る</a>
+
+</html>

@@ -384,6 +384,10 @@ def EventPptDownload2(request, pk):
     else:
         return render(request, 'Event_list.html')
 
+def Programming(request):
+    unity_build_path = '/static/webexe/index.html'
+    return render(request , 'programming.html', {'unity_build_path': unity_build_path})
+
 
 #PPT出力
 #関数バージョンに移行したので不要。タイミング見て消す

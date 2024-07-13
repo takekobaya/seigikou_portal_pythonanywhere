@@ -26,4 +26,5 @@ urlpatterns = [
     path('delete/<int:pk>/',views.EventDeleteView.as_view(),name='delete'),   #削除画面(イベント)
     path('ppt/<int:pk>/',views.EventPpt.as_view(),name='ppt'),             # イベント詳細からのPPT出力
     path('ppt_download/<int:pk>/',views.EventPptDownload2, name='download_ppt'), # イベント詳細からのPPT出力
+    path('programming/', views.Programming, name='programming'),          #プログラミングゲームページ
 ]
